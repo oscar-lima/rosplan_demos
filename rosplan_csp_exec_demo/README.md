@@ -11,6 +11,21 @@ and by checking for online preconditions that are met.
 
 A publication draft (currently under review) will be put here briefly.
 
+## Installation
+
+Make sure you have installed ROS first... This code has been tested on Ubuntu 18.04 & melodic distro.
+
+Clone the following repositories inside your [catkin workspace](http://wiki.ros.org/catkin/Tutorials/create_a_workspace).
+
+    git clone --single-branch --branch new-csp-exec https://github.com/oscar-lima/ROSPlan.git
+    git clone --single-branch --branch new-csp-exec https://github.com/oscar-lima/rosplan_demos.git
+    git clone https://github.com/clearpathrobotics/occupancy_grid_utils.git
+
+Build (requires: sudo apt install python-catkin-tools)
+
+    cd $ROS_WORKSPACE
+    catkin build
+
 ## Run a single demo
 
 roslaunch rosplan_csp_exec_demo rosplan_csp_exec_demo.launch

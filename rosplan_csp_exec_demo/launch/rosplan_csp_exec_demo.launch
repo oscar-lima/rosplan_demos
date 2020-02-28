@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- arguments -->
+
+    <!-- set pddl domain, problem and category -->
+    <arg name="domain" default="domain_skip_door" />
+    <arg name="problem" default="problem_01" />
+    <arg name="category" default="skip_door" /> <!-- iros_problems_free, iros_problems_deadlines, skip_door -->
+
+    <!-- delect between normal or smart plan dispatcher -->
+    <arg name="adaptable_plan_dispatcher_required" default="true" />
+
+    <!-- do not touch this params, but rather update args above -->
+    <arg name="common_path" default="$(find rosplan_csp_exec_demo)/common/$(arg category)" />
+    <arg name="domain_path" default="$(arg common_path)/$(arg domain).pddl" />
+    <arg name="problem_path" default="$(arg common_path)/$(arg problem).pddl" />
+
+    <!-- knowledge base -->
+    <node name="rosplan_knowledge_base" pkg="rosplan_knowledge_base" type="knowledgeBase" respawn="false" output="screen">
+        <param name="domain_path" value="$(arg domain_path)" />
+        <param name="problem_path" value="$(arg problem_path)" />
+        <param name="database_path" value="$(find rosplan_knowledge_base)/common/mongoDB/" />
+        <!-- conditional planning flags -->
+        <param name="use_unknowns" value="false" />
+    </node>
+
+    <!-- problem generation -->
+    <include file="$(find rosplan_planning_system)/launch/includes/problem_interface.launch">
+        <arg name="knowledge_base"   value="rosplan_knowledge_base" />
+        <arg name="domain_path"      value="$(arg domain_path)" />
+        <arg name="problem_path"     value="$(find rosplan_csp_exec_demo)/common/problem.pddl" />
+        <arg name="problem_topic"    value="problem_instance" />
+    </include>
+
+    <!-- planner interface -->
+    <include file="$(find rosplan_planning_system)/launch/includes/planner_interface.launch">
+        <arg name="use_problem_topic"    value="true" />
+        <arg name="problem_topic"        value="/rosplan_problem_interface/problem_instance" />
+        <arg name="planner_topic"        value="planner_output" />
+        <arg name="domain_path"          value="$(arg domain_path)" />
+        <arg name="problem_path"         value="$(find rosplan_csp_exec_demo)/common/problem.pddl" />
+        <arg name="data_path"            value="$(find rosplan_csp_exec_demo)/common/" />
+        <arg name="planner_command"      value="timeout 20 $(find rosplan_planning_system)/common/bin/popf DOMAIN PROBLEM" />
+    </include>
+
+    <!-- plan parsing -->
+    <include file="$(find rosplan_planning_system)/launch/includes/parsing_interface.launch">
+        <arg name="knowledge_base"   value="rosplan_knowledge_base" />
+        <arg name="planner_topic"    value="/rosplan_planner_interface/planner_output" />
+        <arg name="plan_topic"       value="complete_plan" />
+    </include>
+
+    <!-- adaptable plan dispatcher is required -->
+    <group if="$(arg adaptable_plan_dispatcher_required)" >
+        <!-- CSP exec -->
+        <node name="csp_exec_generator" pkg="rosplan_planning_system" type="csp_exec_generator" respawn="false" output="screen" />
+
+        <!-- adaptable plan dispatching -->
+        <node name="rosplan_plan_dispatcher" pkg="rosplan_planning_system" type="pddl_adaptable_plan_dispatcher" respawn="false" output="screen" >
+            <param name="knowledge_base"        value="rosplan_knowledge_base" />
+            <param name="plan_topic"            value="/csp_exec_generator/valid_plans" />
+            <param name="action_dispatch_topic" value="action_dispatch" />
+            <param name="action_feedback_topic" value="action_feedback" />
+            <param name="display_edge_type"     value="false" />
+        </node>
+
+        <!-- coordinator that calls services, replans if failure and outputs the number of executed actions -->
+        <node name="coordinator_adaptable" pkg="rosplan_csp_exec_demo" type="replan_loop.py" output="screen" required="true" >
+            <param name="adaptable_plan_dispatcher_required" value="true" />
+            <param name="execution_type" type="str" value="$(arg category)" /> <!-- iros_problems_free or iros_problems_deadlines, debug purposes -->
+            <param name="problem_name" type="str" value="$(arg problem)" /> <!-- problem name given for debugging purposes -->
+        </node>
+    </group>
+
+    <!-- non adaptable plan dispatcher (normal one) is required -->
+    <group unless="$(arg adaptable_plan_dispatcher_required)">
+        <!-- non adaptable (normal) plan dispatching -->
+        <node name="rosplan_plan_dispatcher" pkg="rosplan_planning_system" type="pddl_esterel_plan_dispatcher" respawn="false" output="screen" >
+            <param name="knowledge_base"        value="rosplan_knowledge_base" />
+            <param name="plan_topic"            value="/rosplan_parsing_interface/complete_plan" /> <!-- single esterel plan -->
+            <param name="action_dispatch_topic" value="action_dispatch" />
+            <param name="action_feedback_topic" value="action_feedback" />
+            <param name="display_edge_type"     value="false" />
+        </node>
+
+        <!-- coordinator that calls services, replans if failure and outputs the number of executed actions -->
+        <node name="coordinator_non_adaptable" pkg="rosplan_csp_exec_demo" type="replan_loop.py" output="screen" required="true" >
+            <param name="adaptable_plan_dispatcher_required" value="false" />
+            <param name="execution_type" type="str" value="$(arg category)" /> <!-- iros_problems_free or iros_problems_deadlines -->
+            <param name="problem_name" type="str" value="$(arg problem)" /> <!-- problem name given for debugging purposes -->
+        </node>
+    </group>
+
+    <!-- count the number of executed actions for benchmark purposes -->
+    <node name="action_counter_node" pkg="rosplan_csp_exec_demo" type="action_counter.py" />
+
+    <!-- sim actions -->
+    <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
+        <arg name="pddl_action_name" value="navigate" />
+        <arg name="action_duration" value="1" />
+    </include>
+
+    <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
+        <arg name="pddl_action_name" value="open_door" />
+        <arg name="action_duration" value="1" />
+    </include>
+
+</launch>

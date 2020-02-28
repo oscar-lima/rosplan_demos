@@ -11,8 +11,8 @@
 #         do
 #             PORT=11${i}11
 #             export ROS_MASTER_URI=http://localhost:$PORT # roscore -p $PORT not needed!
-#             echo "roslaunch rosplan_csp_exec_demo rosplan_csp_exec_demo.launch adaptable_plan_dispatcher_required:=$1 category:=$2 problem:=$3"
-#             timeout 600 roslaunch rosplan_csp_exec_demo rosplan_csp_exec_demo.launch adaptable_plan_dispatcher_required:=$1 category:=$2 problem:=$3&
+#             echo "roslaunch rosplan_csp_exec_demo rosplan_csp_exec_demo.launch adaptable_plan_dispatcher_required:=$1 category:=$2 problem:=$3 domain:=$4"
+#             timeout 600 roslaunch rosplan_csp_exec_demo rosplan_csp_exec_demo.launch adaptable_plan_dispatcher_required:=$1 category:=$2 problem:=$3 domain:=$4&
 #         done
 # }
 
@@ -22,8 +22,8 @@ function call_exec_experiment_with_wait(){
             PORT=11${i}11
             export ROS_MASTER_URI=http://localhost:$PORT # roscore -p $PORT not needed!
             # ./procs[${i}] &
-            echo "roslaunch rosplan_csp_exec_demo rosplan_csp_exec_demo.launch adaptable_plan_dispatcher_required:=$1 category:=$2 problem:=$3"
-            timeout 600 roslaunch rosplan_csp_exec_demo rosplan_csp_exec_demo.launch adaptable_plan_dispatcher_required:=$1 category:=$2 problem:=$3&
+            echo "roslaunch rosplan_csp_exec_demo rosplan_csp_exec_demo.launch adaptable_plan_dispatcher_required:=$1 category:=$2 problem:=$3 domain:=$4"
+            timeout 600 roslaunch rosplan_csp_exec_demo rosplan_csp_exec_demo.launch adaptable_plan_dispatcher_required:=$1 category:=$2 problem:=$3 domain:=$4&
             # run processes and store pids in array
             pids[${i}]=$!
         done
@@ -61,17 +61,17 @@ declare -a nt_prob=("problem_w4_m3_g2" "problem_w4_m5_g2" "problem_w5_m4_g2" "pr
 # non adaptable deadline
 for j in `seq 0 8`;
     do
-        call_exec_experiment_with_wait false iros_problems_deadlines "${t_prob[$j]}"
+        call_exec_experiment_with_wait false iros_problems_deadlines "${t_prob[$j]}" domain_robot_delivery
     done
 
 # adaptable free
 for j in `seq 0 29`;
     do
-        call_exec_experiment_with_wait true iros_problems_free "${nt_prob[$j]}"
+        call_exec_experiment_with_wait true iros_problems_free "${nt_prob[$j]}" domain_robot_delivery
     done
 
 # adaptable deadline
 for j in `seq 0 8`;
     do
-        call_exec_experiment_with_wait true iros_problems_deadlines "${t_prob[$j]}"
+        call_exec_experiment_with_wait true iros_problems_deadlines "${t_prob[$j]}" domain_robot_delivery
     done

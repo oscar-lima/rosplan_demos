@@ -11,6 +11,10 @@ and by checking for online preconditions that are met.
 
 A publication draft (currently under review) will be put here briefly.
 
-## Run the demo
+## Run a single demo
 
 roslaunch rosplan_csp_exec_demo rosplan_csp_exec_demo.launch
+
+## Run multiple experiments (all experiments from the publication mentioned above)
+
+rosrun rosplan_csp_exec_demo automated_multiple_experiment_run.sh

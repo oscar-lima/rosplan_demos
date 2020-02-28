@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# pddl automatically generated files
+rosplan_csp_exec_demo/common/plan.pddl
+rosplan_csp_exec_demo/common/problem.pddl

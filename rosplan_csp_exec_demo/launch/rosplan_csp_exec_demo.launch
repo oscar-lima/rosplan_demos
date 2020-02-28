@@ -95,15 +95,7 @@
     <!-- count the number of executed actions for benchmark purposes -->
     <node name="action_counter_node" pkg="rosplan_csp_exec_demo" type="action_counter.py" />
 
-    <!-- sim actions -->
-    <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
-        <arg name="pddl_action_name" value="navigate" />
-        <arg name="action_duration" value="1" />
-    </include>
-
-    <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
-        <arg name="pddl_action_name" value="open_door" />
-        <arg name="action_duration" value="1" />
-    </include>
+    <!-- simulated actions -->
+    <include file="$(find rosplan_csp_exec_demo)/launch/$(arg domain)_sim_actions.launch" />
 
 </launch>

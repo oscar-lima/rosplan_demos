@@ -3,7 +3,9 @@
  <name>rosplan_csp_exec_demo</name>
  <version>1.0.0</version>
  <description>
- TODO!
+    Finds out many different alternatives for a esterel plan to be executed
+    by relaxing the constraints imposed by the execution graph and
+    by checking for online preconditions that are met.
  </description>
 
  <license>GPLv3</license>
@@ -12,9 +14,5 @@
  <maintainer email="oscar.lima@dfki.de">Oscar Lima</maintainer>
 
  <buildtool_depend>catkin</buildtool_depend>
-
- <build_depend>TODO</build_depend>
-
- <run_depend>TODO</run_depend>
 
 </package>

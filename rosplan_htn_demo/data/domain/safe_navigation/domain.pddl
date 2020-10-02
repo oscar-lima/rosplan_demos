@@ -4,8 +4,8 @@
 
 
 (:types
-	arm
-	arm_posture
+    arm
+    arm_posture
     area
     physobj
     boolean
@@ -20,7 +20,7 @@
 
 (:predicates
     (ArmPosture ?arm - arm ?posture - arm_posture)
-	(RobotAt ?area - area)
+    (RobotAt ?area - area)
     (Holding ?arm - arm ?obj - physobj)
 )
 

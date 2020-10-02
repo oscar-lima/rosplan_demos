@@ -1,0 +1,40 @@
+(define (domain safe_navigation)
+    (:requirements :typing)
+    (:types
+        arm
+        arm_posture
+        area
+        physobj
+        boolean
+    )
+
+    (:predicates 
+        (ArmPosture ?arm - arm ?posture - arm_posture)
+        (RobotAt ?area - area)
+        (Holding ?arm - arm ?obj - physobj)
+    )
+
+    (:task move_arm :parameters (?arm - arm ?oldPosture ?newPosture - arm_posture ?keep_gripper_orientation - boolean))
+    (:task move_base :parameters (?fromArea ?toArea - area))
+
+    (:action move_arm
+        :parameters (?arm - arm ?oldPosture ?newPosture - arm_posture ?keep_gripper_orientation - boolean)
+        :precondition (and
+            (ArmPosture ?arm ?oldPosture))
+        :effect (and
+            (not (ArmPosture ?arm ?oldPosture))
+            (ArmPosture ?arm ?newPosture))
+    )
+
+    (:action move_base
+        :parameters (?fromArea ?toArea - area)
+        :precondition (and
+            (RobotAt ?fromArea)
+        )
+        :effect (and
+            (not (RobotAt ?fromArea))
+            (RobotAt ?toArea)
+        )
+    )
+
+)

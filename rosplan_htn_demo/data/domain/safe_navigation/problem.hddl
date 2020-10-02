@@ -1,0 +1,28 @@
+(define (problem p1)
+    (:domain safe_navigation)
+
+    (:objects  
+        left_arm - arm
+        folded pregrasp - arm_posture
+        kitchen bedroom - area
+        teddy_bear - physobj
+        false true - boolean
+    )
+
+    (:htn
+        :tasks (and
+        (move_base kitchen bedroom)
+        (deliver package-0 city-loc-0)
+        (deliver package-1 city-loc-2)
+    )
+
+    :ordering ( )
+    :constraints ( ))
+
+    (:init
+        (ArmPosture left_arm folded)
+        (RobotAt kitchen)
+        (Holding left_arm teddy_bear)
+    )
+
+)

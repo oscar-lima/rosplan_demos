@@ -1,4 +1,4 @@
-(HybridHTNDomain MinimalDomain)
+(HybridHTNDomain safe_navigation)
 
 (MaxArgs 5)
 

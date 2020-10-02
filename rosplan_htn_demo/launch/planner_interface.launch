@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- arguments -->
+    <arg name="domain_path"          default="$(find rosplan_htn_demo)/data/domain/transport/domain.hddl" />
+    <arg name="problem_path"         default="$(find rosplan_htn_demo)/data/domain/transport/problem.hddl" />
+    <arg name="data_path"            default="/tmp" />
+    <arg name="use_problem_topic"    default="false" />
+    <arg name="planner_command"      default="timeout 10 java -jar $(find rosplan_planning_system)/common/bin/PANDA.jar DOMAIN PROBLEM" />
+    <arg name="planner_interface"    default="panda_planner_interface" />
+
+    <!-- planner interface -->
+    <include file="$(find rosplan_planning_system)/launch/includes/planner_interface.launch">
+        <arg name="domain_path"          value="$(arg domain_path)" />
+        <arg name="problem_path"         value="$(arg problem_path)" />
+        <arg name="data_path"            value="$(arg data_path)" />
+        <arg name="use_problem_topic"    default="$(arg use_problem_topic)" />
+        <arg name="planner_command"      value="$(arg planner_command)" />
+        <arg name="planner_interface"    value="$(arg planner_interface)" />
+    </include>
+
+</launch>

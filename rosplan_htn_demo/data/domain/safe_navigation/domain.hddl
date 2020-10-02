@@ -1,11 +1,11 @@
 (define (domain safe_navigation)
     (:requirements :typing)
     (:types
-        arm
-        arm_posture
-        area
-        physobj
-        boolean
+        arm - robot_part
+        arm_posture - movement
+        area - location
+        physobj - object
+        boolean - symbol
     )
 
     (:predicates 
@@ -16,6 +16,14 @@
 
     (:task move_arm :parameters (?arm - arm ?oldPosture ?newPosture - arm_posture ?keep_gripper_orientation - boolean))
     (:task move_base :parameters (?fromArea ?toArea - area))
+
+    (:method tuck_and_move
+        :parameters (?fromArea ?toArea - area ?arm - arm ?oldPosture ?newPosture - arm_posture ?keep_gripper_orientation - boolean)
+        :task (move_base ?fromArea ?toArea)
+        :ordered-subtasks (and
+            (move_arm ?arm ?oldPosture ?newPosture ?keep_gripper_orientation)
+            (move_base ?fromArea ?toArea))
+    )
 
     (:action move_arm
         :parameters (?arm - arm ?oldPosture ?newPosture - arm_posture ?keep_gripper_orientation - boolean)

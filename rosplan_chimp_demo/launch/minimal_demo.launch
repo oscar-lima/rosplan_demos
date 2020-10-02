@@ -2,13 +2,13 @@
 <launch>
 
     <!-- ROSPlan -->
-    <include file="$(find rosplan_planning_system)/launch/interfaced_planning_system.launch" >
+    <include file="$(find rosplan_planning_system)/launch/interfaced_chimp_planning_system.launch" >
         <arg name="domain_path" value="$(find rosplan_chimp_demo)/common/minimal_demo/simple_domain-operators.pddl" />
-        <!-- <arg name="domain_path" value="$(find rosplan_turtlebot3_demo)/common/domain_turtlebot_demo.pddl" /> -->
+        <arg name="chimp_domain_path" value="$(find rosplan_chimp_demo)/common/minimal_demo/simple_domain.ddl" />
         <!-- load a particular initial state into KB at startup (optional) -->
         <!-- we leave it empty because in this demo we use a bash script to upload information to KB, not a pddl problem -->
         <arg name="problem_path" value="" />
-        <!-- automatically generated pddl problem will be created here -->
+        <!-- automatically generated pdl problem will be created here -->
         <arg name="autom_gen_problem_path" value="$(find rosplan_chimp_demo)/common/minimal_demo/generated_problem.pdl" />
         <!-- planner will produce output plan and write to this location -->
         <arg name="data_path" value="$(find rosplan_chimp_demo)/common/minimal_demo/" />

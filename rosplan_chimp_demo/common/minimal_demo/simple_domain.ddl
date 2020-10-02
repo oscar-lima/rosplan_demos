@@ -3,7 +3,7 @@
 (MaxArgs 5)
 
 (PredicateSymbols
-  ArmPosture Holding RobotAt
+  armposture holding robotat
 # Operators:
   !move_arm
   !move_base
@@ -14,7 +14,7 @@
 
 (Resource armManCapacity 1)
 
-(StateVariable ArmPosture 2 n)
+(StateVariable armposture 2 n)
 
 ################################
 ####  OPERATORS ################
@@ -22,9 +22,9 @@
 # move_arm
 (:operator
  (Head !move_arm(?arm ?newPosture ?keep_gripper_orientation))
- (Pre p1 ArmPosture(?arm ?oldPosture))
+ (Pre p1 armposture(?arm ?oldPosture))
  (Del p1)
- (Add e1 ArmPosture(?arm ?newPosture))
+ (Add e1 armposture(?arm ?newPosture))
 
  (ResourceUsage
     (Usage armManCapacity 1))
@@ -35,9 +35,9 @@
 # move_base
 (:operator
  (Head !move_base(?toArea))
- (Pre p1 RobotAt(?fromArea))
+ (Pre p1 robotat(?fromArea))
  (Del p1)
- (Add e1 RobotAt(?toArea))
+ (Add e1 robotat(?toArea))
  (Constraint Duration[4000,INF](task))
 )
 
@@ -45,15 +45,15 @@
 ### DRIVE
 (:method    # already there
  (Head drive(?area))
-  (Pre p1 RobotAt(?area))
+  (Pre p1 robotat(?area))
   (Constraint During(task,p1))
 )
 
 # Robot is holding nothing: tuck arm
 (:method
  (Head drive(?toArea))
- (Pre p0 Holding(ur5 nothing))
- (Pre p1 RobotAt(?fromArea))
+ (Pre p0 holding(ur5 nothing))
+ (Pre p1 robotat(?fromArea))
  (VarDifferent ?toArea ?fromArea)
  (Sub s1 adapt_arm(ur5 tucked))
  (Constraint Starts(s1,task))
@@ -65,9 +65,9 @@
 # Robot is holding an object: move arm to transport pose
 (:method
  (Head drive(?toArea))
- (Pre p0 Holding(ur5 ?obj))
+ (Pre p0 holding(ur5 ?obj))
  (NotValues ?obj nothing)
- (Pre p1 RobotAt(?fromArea))
+ (Pre p1 robotat(?fromArea))
  (VarDifferent ?toArea ?fromArea)
  (Sub s1 adapt_arm(ur5 transport))
  (Constraint Starts(s1,task))
@@ -79,16 +79,16 @@
 ### adapt arm
 (:method  # Arm already there. Nothing to do.
  (Head adapt_arm(?arm ?posture))
- (Pre p1 ArmPosture(?arm ?posture))
+ (Pre p1 armposture(?arm ?posture))
  (Constraint During(task,p1))
 )
 
 # not holding an object: use_current_orientation_constraint=false
 (:method
  (Head adapt_arm(?arm ?posture))
- (Pre p0 Holding(ur5 ?obj))
+ (Pre p0 holding(ur5 ?obj))
  (Values ?obj nothing)
- (Pre p1 ArmPosture(?arm ?currentposture))
+ (Pre p1 armposture(?arm ?currentposture))
  (VarDifferent ?posture ?currentposture)
  (Sub s1 !move_arm(?arm ?posture false))
  (Constraint Equals(s1,task))
@@ -97,9 +97,9 @@
 # holding an object: use_current_orientation_constraint=true
 (:method
  (Head adapt_arm(?arm ?posture))
- (Pre p0 Holding(ur5 ?obj))
+ (Pre p0 holding(ur5 ?obj))
  (NotValues ?obj nothing)
- (Pre p1 ArmPosture(?arm ?currentposture))
+ (Pre p1 armposture(?arm ?currentposture))
  (VarDifferent ?posture ?currentposture)
  (Sub s1 !move_arm(?arm ?posture true))
  (Constraint Equals(s1,task))

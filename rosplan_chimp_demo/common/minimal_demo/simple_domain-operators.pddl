@@ -13,6 +13,8 @@
 
 (:constants
     ur5 - arm
+    tucked - arm_posture
+    false true - boolean
 )
 
 
@@ -23,7 +25,7 @@
 )
 
 
-(:durative-action !move_arm
+(:durative-action move_arm
     :parameters (?arm - arm ?oldPosture ?newPosture - arm_posture ?keep_gripper_orientation - boolean)
     :duration (= ?duration 2)
     :condition (and 
@@ -35,7 +37,7 @@
     )
 )
 
-(:durative-action !move_base
+(:durative-action move_base
     :parameters (?fromArea ?toArea - area)
     :duration (= ?duration 4)
     :condition (and 

@@ -3,12 +3,13 @@
 
   <!-- :::arguments::: -->
 
+  <arg name="domain_name" default="safe_navigation"/>
   <!-- at the moment we need two domains. One domain for CHIMP and one pddl-version of that domain (without the method) for all other nodes (knowledge base, plan execution)-->
-  <!-- pddl domain path (currently used for the knowledge base)-->
-  <arg name="domain_path"  default="$(find rosplan_planning_system)/test/pddl/turtlebot/domain.pddl" />
-  <!-- chimp domain path-->
-  <arg name="common_path" default="$(find rosplan_planning_system)/test/hierarchical_domains/chimp/restaurant"/>
-  <arg name="chimp_domain_path" default="$(arg common_path)/race_waiter_domain.ddl" />
+  <arg name="common_path" default="$(find rosplan_htn_demo)/data"/>
+  <!-- hddl domain path (currently used for the knowledge base) -->
+  <arg name="domain_path" default="$(arg common_path)/domain/$(arg domain_name)/domain.hddl"/>
+  <!-- domain used in chimp planner (in .ddl format) -->
+  <arg name="chimp_domain_path" default="$(arg common_path)/domain/$(arg domain_name)/domain.ddl" />
 
   <!-- load a particular initial state into KB at startup (optional) -->
   <arg name="problem_path" default="" />
@@ -30,13 +31,10 @@
 
   <!-- :::end of arguments::: -->
 
-  <!-- knowledge base -->
-  <node name="rosplan_knowledge_base" pkg="rosplan_knowledge_base" type="knowledgeBase" respawn="false" output="screen">
-    <param name="domain_path" value="$(arg domain_path)" />
-    <param name="problem_path" value="$(arg problem_path)" />
-    <!-- conditional planning flags -->
-    <param name="use_unknowns" value="false" />
-  </node>
+  <!-- rosplan hddl knowledge base -->
+  <include file="$(find rosplan_knowledge_base)/launch/rosplan_knowledge_base.launch" >
+    <arg name="domain_path" value="$(arg domain_path)" />
+  </include>
 
   <!-- problem generation -->
   <include file="$(find rosplan_planning_system)/launch/includes/problem_interface.launch">

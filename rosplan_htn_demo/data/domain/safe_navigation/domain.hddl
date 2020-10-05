@@ -9,39 +9,39 @@
     )
 
     (:predicates 
-        (ArmPosture ?arm - arm ?posture - arm_posture)
-        (RobotAt ?area - area)
-        (Holding ?arm - arm ?obj - physobj)
+        (arm_posture ?arm - arm ?posture - arm_posture)
+        (robot_at ?area - area)
+        (holding ?arm - arm ?obj - physobj)
     )
 
-    (:task move_arm :parameters (?arm - arm ?oldPosture ?newPosture - arm_posture ?keep_gripper_orientation - boolean))
-    (:task move_base :parameters (?fromArea ?toArea - area))
+    (:task move_arm :parameters (?arm - arm ?old_posture ?new_posture - arm_posture ?keep_gripper_orientation - boolean))
+    (:task move_base :parameters (?from_area ?to_area - area))
 
     (:method tuck_and_move
-        :parameters (?fromArea ?toArea - area ?arm - arm ?oldPosture ?newPosture - arm_posture ?keep_gripper_orientation - boolean)
-        :task (move_base ?fromArea ?toArea)
+        :parameters (?from_area ?to_area - area ?arm - arm ?old_posture ?new_posture - arm_posture ?keep_gripper_orientation - boolean)
+        :task (move_base ?from_area ?to_area)
         :ordered-subtasks (and
-            (move_arm ?arm ?oldPosture ?newPosture ?keep_gripper_orientation)
-            (move_base ?fromArea ?toArea))
+            (move_arm ?arm ?old_posture ?new_posture ?keep_gripper_orientation)
+            (move_base ?from_area ?to_area))
     )
 
     (:action move_arm
-        :parameters (?arm - arm ?oldPosture ?newPosture - arm_posture ?keep_gripper_orientation - boolean)
+        :parameters (?arm - arm ?old_posture ?new_posture - arm_posture ?keep_gripper_orientation - boolean)
         :precondition (and
-            (ArmPosture ?arm ?oldPosture))
+            (arm_posture ?arm ?old_posture))
         :effect (and
-            (not (ArmPosture ?arm ?oldPosture))
-            (ArmPosture ?arm ?newPosture))
+            (not (arm_posture ?arm ?old_posture))
+            (arm_posture ?arm ?new_posture))
     )
 
     (:action move_base
-        :parameters (?fromArea ?toArea - area)
+        :parameters (?from_area ?to_area - area)
         :precondition (and
-            (RobotAt ?fromArea)
+            (robot_at ?from_area)
         )
         :effect (and
-            (not (RobotAt ?fromArea))
-            (RobotAt ?toArea)
+            (not (robot_at ?from_area))
+            (robot_at ?to_area)
         )
     )
 

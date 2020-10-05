@@ -15,10 +15,10 @@
   <arg name="problem_path" default="" />
 
   <!-- automatically generated pddl problem will be created here -->
-  <arg name="autom_gen_problem_path" default="$(find rosplan_planning_system)/test/pddl/turtlebot/problem.pddl" />
+  <arg name="autom_gen_problem_path" default="/tmp/problem.pdl" />
 
   <!-- planner will produce output plan and write to this location -->
-  <arg name="data_path" default="$(find rosplan_planning_system)/test/pddl/turtlebot/" />
+  <arg name="data_path" default="/tmp" />
 
   <!-- use problem.pddl or receive problem from topic -->
   <arg name="use_problem_topic" default="true" />

@@ -71,4 +71,14 @@
     <arg name="action_feedback_topic"    value="action_feedback" />
   </include>
 
+  <!-- sim actions -->
+  <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
+    <arg name="pddl_action_name" value="move_arm" />
+    <arg name="action_duration" value="1" />
+  </include>
+  <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
+    <arg name="pddl_action_name" value="move_base" />
+    <arg name="action_duration" value="1" />
+  </include>
+
 </launch>

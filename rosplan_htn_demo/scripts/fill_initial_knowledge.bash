@@ -43,7 +43,7 @@ param="$param
 - knowledge_type: 1
   instance_type: ''
   instance_name: ''
-  attribute_name: 'armposture'
+  attribute_name: 'arm_posture'
   values:
   - {key: 'arm', value: 'ur5'}
   - {key: 'obj', value: 'undef'}
@@ -66,7 +66,7 @@ param="$param
 - knowledge_type: 1
   instance_type: ''
   instance_name: ''
-  attribute_name: 'robotat'
+  attribute_name: 'robot_at'
   values:
   - {key: 'area', value: 'lab1'}
   function_value: 0.0";

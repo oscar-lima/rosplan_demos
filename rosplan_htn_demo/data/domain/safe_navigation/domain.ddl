@@ -5,8 +5,8 @@
 (PredicateSymbols
   arm_posture holding robot_at
 # Operators:
-  !move_arm
-  !move_base
+  move_arm
+  move_base
 # Methods
   drive
   adapt_arm
@@ -21,7 +21,7 @@
 
 # move_arm
 (:operator
- (Head !move_arm(?arm ?old_posture ?new_posture ?keep_gripper_orientation))
+ (Head move_arm(?arm ?old_posture ?new_posture ?keep_gripper_orientation))
  (Pre p1 arm_posture(?arm ?old_posture))
  (Del p1)
  (Add e1 arm_posture(?arm ?new_posture))
@@ -34,7 +34,7 @@
 
 # move_base
 (:operator
- (Head !move_base(?from_area ?to_area))
+ (Head move_base(?from_area ?to_area))
  (Pre p1 robot_at(?from_area))
  (Del p1)
  (Add e1 robot_at(?to_area))
@@ -57,7 +57,7 @@
  (VarDifferent ?to_area ?from_area)
  (Sub s1 adapt_arm(ur5 tucked))
  (Constraint Starts(s1,task))
- (Sub s2 !move_base(?from_area ?to_area))
+ (Sub s2 move_base(?from_area ?to_area))
  (Ordering s1 s2)
  (Constraint Before(s1,s2))
 )
@@ -71,7 +71,7 @@
  (VarDifferent ?to_area ?from_area)
  (Sub s1 adapt_arm(ur5 transport))
  (Constraint Starts(s1,task))
- (Sub s2 !move_base(?from_area ?to_area))
+ (Sub s2 move_base(?from_area ?to_area))
  (Ordering s1 s2)
  (Constraint Before(s1,s2))
 )
@@ -90,7 +90,7 @@
  (Values ?obj nothing)
  (Pre p1 arm_posture(?arm ?currentposture))
  (VarDifferent ?posture ?currentposture)
- (Sub s1 !move_arm(?arm ?old_posture ?posture false))
+ (Sub s1 move_arm(?arm ?old_posture ?posture false))
  (Constraint Equals(s1,task))
 )
 
@@ -101,7 +101,7 @@
  (NotValues ?obj nothing)
  (Pre p1 arm_posture(?arm ?currentposture))
  (VarDifferent ?posture ?currentposture)
- (Sub s1 !move_arm(?arm ?old_posture ?posture true))
+ (Sub s1 move_arm(?arm ?old_posture ?posture true))
  (Constraint Equals(s1,task))
 )
 

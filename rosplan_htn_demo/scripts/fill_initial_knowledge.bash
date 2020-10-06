@@ -101,7 +101,7 @@ echo "Calling plan parser.";
 rosservice call /rosplan_parsing_interface/parse_plan;
 
 # # dispatch (execute) plan. (send actions one by one to their respective interface and wait for them to finish)
-# echo "Calling plan dispatcher.";
-# rosservice call /rosplan_plan_dispatcher/dispatch_plan;
+echo "Calling plan dispatcher.";
+rosservice call /rosplan_plan_dispatcher/dispatch_plan;
 
 echo "Finished!";

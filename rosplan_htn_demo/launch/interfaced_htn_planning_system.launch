@@ -71,14 +71,17 @@
     <arg name="action_feedback_topic"    value="action_feedback" />
   </include>
 
+  <!-- the following lines can be uncommented to test this launch file as standalone, or they can be replaced
+  by a real or simulated robot -->
+
   <!-- sim actions -->
-  <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
+  <!--include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
     <arg name="pddl_action_name" value="move_arm" />
-    <arg name="action_duration" value="1" />
+    <arg name="action_duration" value="10.0" />
   </include>
   <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
     <arg name="pddl_action_name" value="move_base" />
-    <arg name="action_duration" value="1" />
-  </include>
+    <arg name="action_duration" value="10.0" />
+  </include-->
 
 </launch>

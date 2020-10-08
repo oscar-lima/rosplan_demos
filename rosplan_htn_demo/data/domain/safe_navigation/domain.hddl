@@ -12,6 +12,7 @@
         (arm_posture ?arm - arm ?posture - arm_posture)
         (robot_at ?area - area)
         (holding ?arm - arm ?obj - physobj)
+        (safe_to_navigate)
     )
 
     (:task move_arm :parameters (?arm - arm ?old_posture ?new_posture - arm_posture ?keep_gripper_orientation - boolean))
@@ -31,13 +32,15 @@
             (arm_posture ?arm ?old_posture))
         :effect (and
             (not (arm_posture ?arm ?old_posture))
-            (arm_posture ?arm ?new_posture))
+            (arm_posture ?arm ?new_posture)
+            (safe_to_navigate)) ; missing conditional effect: if new_posture == tucked then
     )
 
     (:action move_base
         :parameters (?from_area ?to_area - area)
         :precondition (and
             (robot_at ?from_area)
+            (safe_to_navigate)
         )
         :effect (and
             (not (robot_at ?from_area))

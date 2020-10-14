@@ -6,10 +6,12 @@
   arm_posture holding robot_at
   on                            # ?obj ?obj_area
   reachable_from                # ?obj_area ?drive_area true/false
+  recognized                    # ?robot_area ?obj
 # Operators:
   move_arm
   move_base
   grasp_object
+  recognize_object
 # Methods
   drive
   adapt_arm
@@ -45,15 +47,26 @@
  (Constraint Duration[4000,INF](task))
 )
 
+# recognize_object
+(:operator
+ (Head recognize_object(?robot_area ?obj))
+ (Pre p1 robot_at(?robot_area))
+ (Add e1 recognized(?obj))
+ (Constraint Duration[1000,INF](task))
+)
+
+
 # grasp_object
 (:operator
  (Head grasp_object(?arm ?obj ?obj_area))
  (Pre p1 on(?obj ?obj_area))
  (Pre p2 holding(?arm nothing))
+ (Pre p3 recognized(?obj))
  #(Pre p3 reachable_from(?obj_area ?robotArea true))
  #(Pre p4 arm_posture(?arm ?oldPosture))
  (Del p1)
  (Del p2)
+ (Del p3)
  #(Del p4)
  (Add e1 holding(?arm ?obj))
  #(Add e2 arm_posture(?arm undefined))
@@ -139,8 +152,10 @@
  (Pre p0 on(?obj ?obj_area))
  (Pre p1 reachable_from(?obj_area ?drive_area true))
  (Sub s1 drive(?drive_area))
- #(Sub s2 recognize(?obj))
+ (Sub s2 recognize_object(?drive_area ?obj))
  (Sub s3 grasp_object(ur5 ?obj ?obj_area))
- (Ordering s1 s3)
- (Constraint Before(s1,s3))
+ (Ordering s1 s2)
+ (Ordering s2 s3)
+ (Constraint Before(s1,s2))
+ (Constraint Before(s2,s3))
 )

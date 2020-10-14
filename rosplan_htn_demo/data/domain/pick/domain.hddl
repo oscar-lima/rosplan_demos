@@ -57,12 +57,12 @@
         :parameters (?arm - arm ?obj - physobj ?obj_area - area)
         :precondition (and
             (on ?obj ?obj_area)
-            (holding ?arm nothing)
+;            (holding ?arm nothing)
             (recognized ?obj)
         )
         :effect (and
             (not (on ?obj ?obj_area))
-            (not (holding ?arm nothing))
+ ;           (not (holding ?arm nothing))
             (holding ?arm ?obj)
         )
     )

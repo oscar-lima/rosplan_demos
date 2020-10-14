@@ -106,9 +106,9 @@ param="$param
   function_value: 0.0";
 
 # physobj : powerdrill1
-param_type="update_type:
+param_type="$param_type
 - 0";
-param="knowledge:
+param="$param
 - knowledge_type: 0
   instance_type: 'physyobj'
   instance_name: 'powerdrill1'
@@ -128,7 +128,7 @@ param="$param
   - {key: 'area', value: 'table1'}
   function_value: 0.0";
 
-# Goal: (RobotAt lab1)
+# Goal: (get powerdrill1)
 param_type="$param_type
 - 1"
 param="$param

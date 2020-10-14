@@ -1,0 +1,28 @@
+(Problem
+
+(ArgumentSymbols
+lab1
+lab1area
+nothing
+undef
+ur5
+powerdrill1
+table1
+table1_man_area
+n)
+
+(Fluent f1 arm_posture(ur5 undef))
+(Constraint Release[0,0](f1))
+(Fluent f2 robot_at(lab1))
+(Constraint Release[0,0](f2))
+(Fluent f3 holding(ur5 nothing))
+(Constraint Release[0,0](f3))
+
+(Fluent f4 on(powerdrill1 table1))
+(Constraint Release[0,0](f4))
+
+(Fluent f5 reachable_from(table1 table1_man_area true))
+(Constraint Release[0,0](f5))
+
+(Task t6 get(powerdrill1))
+)

@@ -21,7 +21,7 @@ n)
 (Fluent f4 on(powerdrill1 table1))
 (Constraint Release[0,0](f4))
 
-(Fluent f5 reachable_from(table1 table1_man_area true))
+(Fluent f5 reachable_from(table1 table1_man_area))
 (Constraint Release[0,0](f5))
 
 (Task t6 get(powerdrill1))

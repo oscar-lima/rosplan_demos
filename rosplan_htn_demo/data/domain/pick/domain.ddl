@@ -5,7 +5,7 @@
 (PredicateSymbols
   arm_posture holding robot_at
   on                            # ?obj ?obj_area
-  reachable_from                # ?obj_area ?drive_area true/false
+  reachable_from                # ?obj_area ?drive_area
   recognized                    # ?robot_area ?obj
 # Operators:
   move_arm
@@ -62,7 +62,7 @@
  (Pre p1 on(?obj ?obj_area))
  (Pre p2 holding(?arm nothing))
  (Pre p3 recognized(?obj))
- #(Pre p3 reachable_from(?obj_area ?robotArea true))
+ #(Pre p3 reachable_from(?obj_area ?robot_area))
  #(Pre p4 arm_posture(?arm ?oldPosture))
  (Del p1)
  (Del p2)
@@ -150,7 +150,7 @@
 (:method
  (Head get(?obj))
  (Pre p0 on(?obj ?obj_area))
- (Pre p1 reachable_from(?obj_area ?drive_area true))
+ (Pre p1 reachable_from(?obj_area ?drive_area))
  (Sub s1 drive(?drive_area))
  (Sub s2 recognize_object(?drive_area ?obj))
  (Sub s3 grasp_object(ur5 ?obj ?obj_area))

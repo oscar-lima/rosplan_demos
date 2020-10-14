@@ -14,7 +14,7 @@
         (holding ?arm - arm ?obj - physobj)
         (safe_to_navigate)
         (on ?obj - physobj ?area - area)
-        (reachable_from ?obj_area ?man_area - area ?reachable - boolean)
+        (reachable_from ?obj_area ?man_area - area)
         (recognized ?obj - physobj)
     )
 

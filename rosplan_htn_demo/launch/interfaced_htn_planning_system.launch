@@ -74,13 +74,13 @@
   by a real or simulated robot -->
 
   <!-- sim actions -->
-  <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
+  <!-- <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
     <arg name="pddl_action_name" value="move_arm" />
     <arg name="action_duration" value="10.0" />
   </include>
   <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
     <arg name="pddl_action_name" value="move_base" />
     <arg name="action_duration" value="10.0" />
-  </include>
+  </include> -->
 
 </launch>

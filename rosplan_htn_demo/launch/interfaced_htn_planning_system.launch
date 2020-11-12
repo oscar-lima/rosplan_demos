@@ -24,7 +24,7 @@
   <arg name="use_problem_topic" default="true" />
 
   <!-- command to run the planner -->
-  <arg name="planner_command"      default="timeout 10 $(find rosplan_dependencies)/chimp/gradlew run -p $(find rosplan_dependencies)/chimp -Dexec.args=&quot;DOMAIN PROBLEM -o=OUTPUT&quot;" />
+  <arg name="planner_command"      default="timeout 10 $(find rosplan_dependencies)/chimp/gradlew run -p $(find rosplan_dependencies)/chimp -Dexec.args=&quot;DOMAIN PROBLEM -o=OUTPUT -e=ESTEREL&quot;" />
 
   <!-- interface to the planning system -->
   <arg name="planner_interface"    default="chimp_planner_interface" />
@@ -57,11 +57,10 @@
   </include>
 
   <!-- plan parsing -->
-  <include file="$(find rosplan_planning_system)/launch/includes/parsing_interface.launch">
-    <arg name="knowledge_base"   value="rosplan_knowledge_base" />
-    <arg name="planner_topic"    value="/rosplan_planner_interface/planner_output" />
-    <arg name="plan_topic"       value="complete_plan" />
-  </include>
+  <node name="rosplan_parsing_interface" pkg="rosplan_planning_system" type="direct_esterel_parser.py" respawn="false" output="screen">
+		<param name="planner_topic"  value="/rosplan_planner_interface/planner_output" />
+		<param name="plan_topic"     value="complete_plan" />
+	</node>
 
   <!-- plan dispatch -->
   <include file="$(find rosplan_planning_system)/launch/includes/dispatch_interface.launch">
@@ -75,13 +74,13 @@
   by a real or simulated robot -->
 
   <!-- sim actions -->
-  <!--include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
+  <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
     <arg name="pddl_action_name" value="move_arm" />
     <arg name="action_duration" value="10.0" />
   </include>
   <include file="$(find rosplan_planning_system)/launch/includes/simulated_action.launch" >
     <arg name="pddl_action_name" value="move_base" />
     <arg name="action_duration" value="10.0" />
-  </include-->
+  </include>
 
 </launch>
